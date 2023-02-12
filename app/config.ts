@@ -10,19 +10,7 @@ const common: ConfigInterface = {
   host: process.env.HOST,
   port: Number(process.env.PORT),
   server_url: process.env.SERVER_URL,
-  frontend_url: process.env.FE_URL,
-  sentry_url: process.env.SENTRY_URL,
-  aws: {
-    accessKeyId: "",
-    secretAccessKey: "",
-    region: "",
-    bucket: "",
-  },
-  postmark: {
-    token: "123",
-    from: "",
-  },
-  jwt_secret: "secretOrPrivateKey",
+  beam_api_url: process.env.BEAM_API_URL,
 };
 
 const development: ConfigInterface = {

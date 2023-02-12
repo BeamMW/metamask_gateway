@@ -1,7 +1,7 @@
 import { ParameterizedContext } from "koa";
 
 import { MetaMaskMethodList } from "../shared/constants";
-import { getChainId, getNetVersion } from "./metamask.controller";
+import { getBlockNumber, getChainId, getNetVersion } from "./metamask.controller";
 
 export const getAliveHandler = async (ctx: ParameterizedContext) => {
   const uptime_minutes = process.uptime() / 60;
@@ -30,6 +30,7 @@ export const metaMaskRoutingHandler = async (ctx: ParameterizedContext) => {
       break;
 
     case MetaMaskMethodList.EthBlockNumber: // The eth_blockNumber endpoint in Ethereum JSON-RPC API is used to retrieve the current block number of the Ethereum network the client is connected to.
+      result = await getBlockNumber();
       break;
 
     case MetaMaskMethodList.EthGasPrice: // Returns the current gas price.
@@ -57,6 +58,9 @@ export const metaMaskRoutingHandler = async (ctx: ParameterizedContext) => {
       break;
 
     case MetaMaskMethodList.EthCall: //used to call (invoke) a specific function of a smart contract deployed on the Ethereum network, without actually modifying the state of the blockchain. This is useful for retrieving information from a smart contract, such as its current balance o
+      break;
+    default:
+      result = null;
       break;
   }
 

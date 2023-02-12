@@ -9,10 +9,8 @@ import config from "./config";
 import middlewares from "./middlewares";
 import router from "./routes";
 import { ENVIRONMENT } from "./shared/constants";
-import { getAliveHandler } from "./controllers";
-import { swagger } from "./routes/swagger";
 
-const { host, port, server_url, sentry_url, env } = config;
+const { host, port, server_url, env } = config;
 
 const app: Koa = new Koa();
 
@@ -31,24 +29,10 @@ app.use(
     },
   }),
 );
-// Middleware
 
-if ([ENVIRONMENT.production, ENVIRONMENT.stage, ENVIRONMENT.qa].includes(env)) {
-  Sentry.init({ dsn: sentry_url });
-}
 // Application error logging.
 app.on("error", (err, ctx) => {
-  if (env !== ENVIRONMENT.test) {
-    console.error(err);
-  }
-  if ([ENVIRONMENT.production, ENVIRONMENT.stage, ENVIRONMENT.qa].includes(env)) {
-    Sentry.withScope((scope) => {
-      scope.addEventProcessor((event) => {
-        return Sentry.Handlers.parseRequest(event, ctx.request);
-      });
-      Sentry.captureException(err);
-    });
-  }
+  console.error(err);
 });
 
 const server = http.createServer(app.callback());
