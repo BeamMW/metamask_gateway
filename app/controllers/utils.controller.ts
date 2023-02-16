@@ -1,7 +1,14 @@
 import { ParameterizedContext } from "koa";
 
 import { MetaMaskMethodList } from "../shared/constants";
-import { getBlockNumber, getChainId, getNetVersion } from "./metamask.controller";
+import {
+  getBlockNumber,
+  getChainId,
+  getEstimateGasPrice,
+  getEthGetCode,
+  getGasPrice,
+  getNetVersion,
+} from "./metamask.controller";
 
 export const getAliveHandler = async (ctx: ParameterizedContext) => {
   const uptime_minutes = process.uptime() / 60;
@@ -16,8 +23,6 @@ export const getAliveHandler = async (ctx: ParameterizedContext) => {
 
 export const metaMaskRoutingHandler = async (ctx: ParameterizedContext) => {
   const { id, jsonrpc, method, params } = ctx.request.body;
-
-  // return id as response identifyer
 
   let result;
 
@@ -34,12 +39,15 @@ export const metaMaskRoutingHandler = async (ctx: ParameterizedContext) => {
       break;
 
     case MetaMaskMethodList.EthGasPrice: // Returns the current gas price.
+      result = getGasPrice();
       break;
 
     case MetaMaskMethodList.EthEstimateGas: // endpoint in the Ethereum JSON-RPC API is used to estimate the gas required to perform a certain operation on the Ethereum network.
+      result = getEstimateGasPrice();
       break;
 
     case MetaMaskMethodList.EthGetCode: //  is used to retrieve the bytecode of a smart contract deployed on the Ethereum network.
+      result = getEthGetCode();
       break;
 
     case MetaMaskMethodList.EthGetBalance: // Returns the balance of a given Ethereum address.
