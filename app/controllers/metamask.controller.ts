@@ -30,3 +30,7 @@ export const getEstimateGasPrice = () => {
 export const getEthGetCode = () => {
   return "0x600160008035811a818181146012578301005b601b6001356025565b8060005260206000f25b600060078202905091905056";
 };
+
+export const getTransactionCount = () => {
+  return "0x1";
+};

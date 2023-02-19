@@ -8,6 +8,7 @@ import {
   getEthGetCode,
   getGasPrice,
   getNetVersion,
+  getTransactionCount,
 } from "./metamask.controller";
 
 export const getAliveHandler = async (ctx: ParameterizedContext) => {
@@ -54,6 +55,7 @@ export const metaMaskRoutingHandler = async (ctx: ParameterizedContext) => {
       break;
 
     case MetaMaskMethodList.EthGetTransactionCount: // Returns the number of transactions made by a given Ethereum address.
+      result = getTransactionCount();
       break;
 
     case MetaMaskMethodList.EthSendRawTransaction: //  Accepts a signed Ethereum transaction and broadcasts it to the network.
